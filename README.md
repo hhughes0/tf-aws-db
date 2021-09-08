@@ -7,19 +7,19 @@ Terraform to create EC2 DB(Mysql or Postgres) instance(s) on AWS.
 ### Single EC2 Instance running Postgres in Stage: test
 
 ```hcl
-terraform apply -var 'db_type=["postgres"]' -var 'stages=["test"]' 
+terraform apply -var 'db_type=["postgres"]' -var 'deploy_stages=["test"]' 
 ```
 
 ### Multiple EC2 Instances running Postgres in Stage: test and beta
 
 ```hcl
-terraform apply -var 'db_type=["postgres"]' -var 'stages=["test","beta"]' 
+terraform apply -var 'db_type=["postgres"]' -var 'deploy_stages=["test","beta"]' 
 ```
 
 ### 1 EC2 Instance running Postgres and 1 EC2 instance running mysql in Stage: test and beta
 
 ```hcl
-terraform apply -var 'db_type=["postgres", "mysql"]' -var 'stages=["test","beta"]' 
+terraform apply -var 'db_type=["postgres", "mysql"]' -var 'deploy_stages=["test","beta"]' 
 ```
 
 ### 1 EC2 Instance running Postgres and 1 EC2 instance running mysql in Stage: test and beta with a specific ami

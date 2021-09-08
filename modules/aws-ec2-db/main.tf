@@ -14,12 +14,10 @@ data "aws_vpc" "selected" {
   }
 }
 
-data "aws_subnet_ids" "selected" {
-  vpc_id = data.aws_vpc.selected.id
-
+data "aws_subnets" "selected" {
   filter {
-    name   = "tag:Stage"
-    values = ["${var.stage}"]
+    name   = "vpc-id"
+    values = [data.aws_vpc.selected.id]
   }
 }
 
@@ -100,7 +98,7 @@ resource "aws_security_group" "allow_db_access" {
 resource "aws_instance" "db" {
   for_each               = local.db_types
   instance_type          = var.instance_type
-  subnet_id              = flatten(data.aws_subnet_ids.selected.ids)[0]
+  subnet_id = flatten(data.aws_subnets.selected.ids)[0]
   ami                    = var.ami_id != "" ? var.ami_id : data.aws_ami.ubuntu.id
   iam_instance_profile   = data.aws_iam_instance_profile.ssm.name
   vpc_security_group_ids = [aws_security_group.allow_db_access[each.value].id]

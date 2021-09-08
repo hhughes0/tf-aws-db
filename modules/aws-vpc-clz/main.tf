@@ -12,10 +12,6 @@ data "aws_iam_policy" "ssm_policy" {
 
 data "aws_region" "current" {}
 
-data "aws_subnet_ids" "selected" {
-  vpc_id = aws_vpc.main.id
-}
-
 # Create a VPC
 resource "aws_vpc" "main" {
   cidr_block = local.vpc_cidr
@@ -108,7 +104,7 @@ resource "aws_security_group" "sg_ssm" {
 
 resource "aws_vpc_endpoint" "ssm" {
   vpc_id            = aws_vpc.main.id
-  subnet_ids        = data.aws_subnet_ids.selected.ids
+  subnet_ids        = [aws_subnet.main.id]
   service_name      = "com.amazonaws.${data.aws_region.current.name}.ssm"
   vpc_endpoint_type = "Interface"
 
@@ -124,7 +120,7 @@ resource "aws_vpc_endpoint" "ssm" {
 
 resource "aws_vpc_endpoint" "ec2messages" {
   vpc_id            = aws_vpc.main.id
-  subnet_ids        = data.aws_subnet_ids.selected.ids
+  subnet_ids        = [aws_subnet.main.id]
   service_name      = "com.amazonaws.${data.aws_region.current.name}.ec2messages"
   vpc_endpoint_type = "Interface"
 
@@ -140,7 +136,7 @@ resource "aws_vpc_endpoint" "ec2messages" {
 
 resource "aws_vpc_endpoint" "ssmmessages" {
   vpc_id            = aws_vpc.main.id
-  subnet_ids        = data.aws_subnet_ids.selected.ids
+  subnet_ids        = [aws_subnet.main.id]
   service_name      = "com.amazonaws.${data.aws_region.current.name}.ssmmessages"
   vpc_endpoint_type = "Interface"
 
