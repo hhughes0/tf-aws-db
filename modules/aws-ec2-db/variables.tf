@@ -3,6 +3,11 @@ variable "stage" {
   description = "some test value"
 }
 
+//variable "subnet_id" {
+//  type        = string
+//  description = "some test value"
+//}
+
 variable "instance_type" {
   type        = string
   description = "some test value"
